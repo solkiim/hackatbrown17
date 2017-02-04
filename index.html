@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Hello, World! • A-Frame</title>
+		<title>Hack@Brown 2017</title>
 		<meta name="description" content="Hello, World! • A-Frame">
 		<script src="https://aframe.io/releases/0.4.0/aframe.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -13,9 +13,11 @@
 			
 			<a-assets>
 				<img id="iceTexture" src="img/ice.jpg" />
-				<audio id="l'appel-du-vide" src="mp3/l'appel-du-vide.mp3" preload="auto" />
+				<audio id="vide" src="mp3/vide.mp3" preload="auto" />
 			</a-assets>
 			
+			<!--<a-entity sound="src: #vide"></a-entity>-->
+			<a-sound src="src: url(mp3/vide.mp3)" autoplay="true" position="0 0 0"></a-sound>
 			<a-light type="directional" color="black" position="0 10 0">
 				<a-animation attribute="color" to="white" direction="alternate" dur="2000"
       repeat="indefinite"></a-animation>
@@ -32,7 +34,6 @@
 			<a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
 
 			<a-sky color="#000000"></a-sky>
-			<a-sound src="src: #l'appel-du-vide" autoplay="true" position="0 0 0"></a-sound>
 			<a-entity position="0 0 3.8">
 				<a-camera></a-camera>
 			</a-entity>
