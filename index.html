@@ -13,6 +13,10 @@
       <a-assets>
         <img id="iceTexture" src="img/ice.jpg" />
       </a-assets>
+			<a-light type="point" color="black" position="0 5 0">
+				<a-animation attribute="color" to="white" direction="alternate" dur="2000"
+      repeat="indefinite"></a-animation>
+			</a-light>
 			<a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
 			<a-sphere position="1 5 -1" radius="1.25" color="#ffffff"></a-sphere>
 			<a-box src="#iceTexture" position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#4CC3D9"></a-box>
