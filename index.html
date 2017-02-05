@@ -6,11 +6,12 @@
 		<meta name="description" content="Hello, World! • A-Frame">
 		<script src="https://aframe.io/releases/0.4.0/aframe.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <script src="/js/script.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+    <script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
+    <!-- <script src="/js/script.js"></script> -->
 	</head>
 	<body>
-		<a-scene>
-			
+		<a-scene>			
 			<a-assets>
 				<img id="iceTexture" src="img/ice.jpg" />
 				<img id="starscape" src="img/starscape.jpg" />
@@ -18,15 +19,15 @@
 			</a-assets>
 			
 			<!--<a-entity sound="src: #vide"></a-entity>-->
-			<a-sky src="#starscape"></a-sky>
+			<!-- <a-sky src="#starscape"></a-sky> -->
 			
 			
 			<a-sound src="src: url(mp3/vide.mp3)" autoplay="true" position="0 0 0"></a-sound>
-			<!--<a-light type="directional" color="black" position="0 10 0">
-				<a-animation attribute="color" to="white" direction="alternate" dur="2000"
-      repeat="indefinite"></a-animation>
-			</a-light>-->
-			<a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
+			<!-- <a-light type="directional" color="black" position="0 10 0"> -->
+				<!-- <a-animation attribute="color" to="white" direction="alternate" dur="2000" -->
+      <!-- repeat="indefinite"></a-animation> -->
+			<!-- </a-light> -->
+<!-- 			<a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
 			<a-sphere position="1 2 -1" radius="1.25" color="#ffffff">
 				<a-animation attribute="radius" to="2" direction="alternate" dur="4000"
       repeat="indefinite"></a-animation>
@@ -37,9 +38,170 @@
       repeat="indefinite"></a-animation>
 			<a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
 			<a-entity position="0 0 0">
+      <a-assets>
+        <img id="iceTexture" src="img/ice.jpg" />
+      </a-assets> -->
+			<!-- <a-light type="point" color="#FF0FFF" position="0 5 0"> -->
+				<!-- <a-animation attribute="color" from="#fff" to="#00FF00" direction="alternate" dur="2000" repeat="indefinite"></a-animation> -->
+			<!-- </a-light> -->
+			<!-- <a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere> -->
+			<!-- <a-sphere position="1 5 -1" radius="1.25" color="#ffffff"></a-sphere> -->
+			<!-- <a-box src="#iceTexture" position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#4CC3D9"></a-box> -->
+			<!-- <a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder> -->
+			<!-- <a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane> -->
+
+			<a-sky color="#FFFFFF"></a-sky>
+			<a-entity position="0 0 3.8">
 				<a-camera></a-camera>
 			</a-entity>
 		</a-scene>
+    <script type="text/javascript">
+
+    var coordinates = AFRAME.utils.coordinates;
+    AFRAME.registerComponent('line', {
+      schema: {
+        color: { default: '#000' },
+        path: {
+          default: [
+            { x: -0.5, y: 0, z: 0 },
+            { x: 0.5, y: 0, z: 0 }
+          ],
+
+          // Deserialize path in the form of comma-separated vec3s: `0 0 0, 1 1 1, 2 0 3`.
+          parse: function (value) {
+            return value.split(',').map(coordinates.parse);
+          },
+
+          // Serialize array of vec3s in case someone does setAttribute('line', 'path', [...]).
+          stringify: function (data) {
+            return data.map(coordinates.stringify).join(',');
+          }
+        }
+      },
+      
+      update: function () {
+        var material = new THREE.LineBasicMaterial({
+            color: this.data.color
+        });
+
+        var geometry = new THREE.Geometry();
+        this.data.path.forEach(function (vec3) {
+          geometry.vertices.push(
+            new THREE.Vector3(vec3.x, vec3.y, vec3.z)
+          );
+        });
+
+        this.el.setObject3D('mesh', new THREE.Line(geometry, material));
+      },
+      
+      remove: function () {
+        this.el.removeObject3D('mesh');
+      }
+    });
+      var itemgetter = function(prop) {
+        return function(d) {
+          return d[prop];
+        };
+      };
+
+      function vecMult(v, s) {
+        return [v[0]*s, v[1]*s, v[2]*s];
+      }
+
+      var distance = function(one, two) {
+        var x = two[0] - one[0];
+        var y = two[1] - one[1];
+        var z = two[2] - one[2];
+        return Math.sqrt((x*x) + (y*y) + (z*z));
+      };
+
+      var tag_strings = ["maga", "tbt", "mcm", "other", "more", "extra"];
+
+      var tag_objects = {};
+      for (var i = 0; i < tag_strings.length; i++) {
+        var name = tag_strings[i];
+        var tdata = {};
+        tdata.name = name;
+        tdata.position = [(-2 + i), (i / 2), 0];
+        tdata.size = 1;
+        tag_objects[name] = tdata;
+      }
+
+      var tweets = [{
+        'text': 'fake tweet #maga #tbt',
+        'tags': ['maga', 'tbt'],
+      },
+      {
+        'text': 'real fake news #mcm #extra',
+        'tags': ['mcm', 'extra']
+      }];
+
+      var lines = [];
+      var tweet_objects = {};
+
+      for (var i = 0; i < tweets.length; i++) {
+        var tweet = tweets[i];
+        tweet.position = [0, i, 1.2];
+
+        for (var j = 0; j < tweets[i].tags.length; j++) {
+          var tag = tweets[i].tags[j];
+          lines.push({
+            p1: tweet.position.join(' '),
+            p2: tag_objects[tag].position.join(' ')
+          });
+        }
+      }
+
+      var spheres = d3.select("a-scene").selectAll(".hashtag-sphere").data(Object.values(tag_objects));
+      var tag_texts = d3.select('a-scene').selectAll('.hashtag-text').data(Object.values(tag_objects));
+      var tweets = d3.select('a-scene').selectAll('.tweet-objects').data(tweets);
+      var lines = d3.select('a-scene').selectAll('.lines').data(lines);
+
+      tag_texts.enter()
+        .append('a-entity')
+        .classed("hashtag-text", true)
+        .attr('scale', '3, 3, 3')
+        .attr('bmfont-text', function(d) {
+          return "text: " + d.name;
+        })
+        .attr("position", function(d) {
+          return d.position.join(" ");
+        })
+        .attr('color', itemgetter('color'));
+
+      spheres.enter()
+        .append("a-sphere")
+        .classed("hashtag-sphere", true)
+        .attr("position", function(d) {
+          return d.position.join(" ");
+        })
+        .attr('radius', 0.5)
+        .attr('opacity', 0.5)
+        .attr('metalness', '0.5')
+        .attr('color', '#ccffaa');
+
+      tweets.enter()
+        .append('a-entity')
+        .attr('bmfont-text', function(d) {
+          return "text: " + d.text;
+        })
+        .attr('position', function(d) {
+          return d.position.join(" ");
+        })
+        .attr('scale', "2 2 2");
+
+      lines.enter()
+        .append("a-entity")
+        .classed('lines', true)
+        .attr('line', function(d) {
+          return "path: " + [d.p1, d.p2].join(",");
+        });
+        // .attr('radius', 0.01)
+        // .attr('height', itemgetter('height'))
+        // .attr('rotation', itemgetter('rotation'))
+        // .attr('color', '#000');
+
+    </script>
 	</body>
 </html>
 
