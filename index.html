@@ -18,25 +18,28 @@
 			</a-assets>
 			
 			<!--<a-entity sound="src: #vide"></a-entity>-->
-			<a-sky src="#starscape"></a-sky>
+			<a-sky color="FFF">
+			</a-sky>
+			
+			<a-entity>
+				<a-torus position="0 0 0" radius="2" rotation="0 0 0" color="#000"></a-torus>
+				<a-torus position="0 0 0" radius="2" rotation="0 45 0" color="#000"></a-torus>
+				<a-torus position="0 0 0" radius="2" rotation="0 90 0" color="#000"></a-torus>
+				<a-torus position="0 0 0" radius="2" rotation="0 135 0" color="#000"></a-torus>
+				<a-torus position="0 0 0" radius="2" rotation="0 180 0" color="#000"></a-torus>
+				<a-torus position="0 0 0" radius="2" rotation="0 225 0" color="#000"></a-torus>
+				<a-torus position="0 0 0" radius="2" rotation="0 270 0" color="#000"></a-torus>
+				<a-torus position="0 0 0" radius="2" rotation="0 315 0" color="#000"></a-torus>
+				<a-animation attribute="rotation" dur="1000" easing="linear" fill="forwards" to="0 360 0" repeat="indefinite"></a-animation>
+			</a-entity>
 			
 			
 			<a-sound src="src: url(mp3/vide.mp3)" autoplay="true" position="0 0 0"></a-sound>
-			<!--<a-light type="directional" color="black" position="0 10 0">
+				<a-light type="directional" color="black" position="0 10 0">
 				<a-animation attribute="color" to="white" direction="alternate" dur="2000"
       repeat="indefinite"></a-animation>
-			</a-light>-->
-			<a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
-			<a-sphere position="1 2 -1" radius="1.25" color="#ffffff">
-				<a-animation attribute="radius" to="2" direction="alternate" dur="4000"
-      repeat="indefinite"></a-animation>
-			</a-sphere>
-			<a-box src="#iceTexture" position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#4CC3D9"></a-box>
-			<a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-				<a-animation attribute="radius" to="2" direction="alternate" dur="4000"
-      repeat="indefinite"></a-animation>
-			<a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-			<a-entity position="0 0 0">
+				</a-light>
+			<a-entity position="0 -1.5 0">
 				<a-camera></a-camera>
 			</a-entity>
 		</a-scene>
